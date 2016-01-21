@@ -6,11 +6,30 @@ LABEL description="Development environment for RamePlayer"
 
 ENV RAME_DIR /opt/rame
 
-RUN apk --update add lua5.3 lua5.3-cjson lua5.3-penlight lua5.3-posix \
-    lua5.3-cqueues lua5.3-ldbus lua5.3-socket dbus eudev ffmpeg git \
-    nodejs supervisor
+RUN apk --update add \
+    dbus \
+    eudev \
+    ffmpeg \
+    git \
+    lua5.3 \
+    lua5.3-cjson \
+    lua5.3-penlight \
+    lua5.3-posix \
+    lua5.3-cqueues \
+    lua5.3-ldbus \
+    lua5.3-socket \
+    nodejs \
+    openssh \
+    supervisor
 
-COPY supervisord.conf /etc/supervisord.conf
+# Set root password to 'rpi'
+RUN echo root:rpi | chpasswd
+
+COPY sshd_config /etc/ssh/
+COPY supervisord.conf /etc/
+
+# Generate new host keys
+RUN ssh-keygen -A
 
 RUN mkdir -p ${RAME_DIR} && \
     cd ${RAME_DIR} && \
@@ -29,7 +48,7 @@ RUN cd ${RAME_DIR}/rameplayer-webui && \
 
 VOLUME ["/opt/rame"]
 
-EXPOSE 80 8000
+EXPOSE 22 80 8000
 
 # Use supervisord to launch httpd and rameplayer-backend
 CMD ["/usr/bin/supervisord"]

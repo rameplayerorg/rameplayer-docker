@@ -18,7 +18,7 @@ This will take a bit time, so better to grab a coffee or coke meanwhile.
 ## Testing
 
 ```sh
-sudo docker run -d -p 8080:80 -p 8000:8000 rameplayer
+sudo docker run -p 8022:22 -p 8080:80 -p 8000:8000 rameplayer
 ```
 
 WebUI can be found from following URLs:
@@ -31,7 +31,11 @@ http://localhost:8080/src
 
 For development you need a directory on your machine where you have cloned webui and backend repositories. In this example it is */home/user/projects/rameplayer*:
 ```sh
-sudo docker run -d -p 8080:80 -p 8000:8000 -v /home/user/projects/rameplayer:/opt/rame rameplayer
+sudo docker run -p 8022:22 -p 8080:80 -p 8000:8000 -v /home/user/projects/rameplayer:/opt/rame rameplayer
 ```
 
 WebUI can be found from same URLs as in testing.
+
+## SSH
+
+OpenSSH server is launched by supervisord, it listens to default port 22. Password for root: rpi
