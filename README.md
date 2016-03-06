@@ -6,19 +6,12 @@ Image is based on Alpine Docker image.
 
 Install Docker.
 
-## Build
+## Running
 
-Run in cloned repository:
-```sh
-$ sudo docker build -t rameplayer .
-```
-
-This will take a bit time, so better to grab a coffee or coke meanwhile.
-
-## Testing
+For development you need a directory on your machine where you have cloned webui and backend repositories. In this example it is */home/user/projects/rameplayer*. You can mount also your video directory to be used, in this example it is */home/user/Videos*.
 
 ```sh
-sudo docker run -p 8022:22 -p 8080:80 -p 8000:8000 rameplayer
+docker run -v /dev/snd:/dev/snd -v /tmp/.X11-unix:/tmp/.X11-unix -v /home/user/projects/rameplayer:/opt/rame -v /home/user/Videos:/media/mmcblk0p1/media -p 8000:8000 -p 8080:80 -p 8022:22 --privileged rameplayerorg/rameplayer
 ```
 
 WebUI can be found from following URLs:
@@ -26,15 +19,6 @@ WebUI can be found from following URLs:
 http://localhost:8080/build
 
 http://localhost:8080/src
-
-## Development
-
-For development you need a directory on your machine where you have cloned webui and backend repositories. In this example it is */home/user/projects/rameplayer*:
-```sh
-sudo docker run -p 8022:22 -p 8080:80 -p 8000:8000 -v /home/user/projects/rameplayer:/opt/rame rameplayer
-```
-
-WebUI can be found from same URLs as in testing.
 
 ## SSH
 
