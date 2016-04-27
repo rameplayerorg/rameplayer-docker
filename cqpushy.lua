@@ -61,6 +61,8 @@ end
 
 local function update_ip()
 	local nlfd, err = posix.socket(posix.AF_NETLINK, posix.SOCK_RAW, posix.NETLINK_ROUTE)
+	posix.fcntl(nlfd, posix.F_SETFD, posix.FD_CLOEXEC)
+	posix.fcntl(nlfd, posix.F_SETFL, posix.O_NONBLOCK)
 	posix.bind(nlfd, {family=posix.AF_NETLINK, pid=posix.getpid("pid"), groups=0x440}) --groups=RTMGRP_IPV4_ROUTE|RTMGRP_IPV6_ROUTE
 	local nlsock = posixfd.openfd(nlfd, 'r')
 	local timeout = 0.05
@@ -75,7 +77,11 @@ local function update_ip()
 			s:setpeername("8.8.8.8", 80)
 			local ip, port = s:getsockname()
 			s:close()
-			RAME.system.ip(tostring(ip))
+			local ip_str = tostring(ip)
+			if ip_str ~= RAME.system.ip() then
+				RAME.log.info("IP "..ip_str)
+			end
+			RAME.system.ip(ip_str)
 			timeout = nil
 		end
 	end
@@ -85,9 +91,9 @@ end
 local loop = cqueues.new()
 loop:wrap(exit_handler)
 loop:wrap(start_player)
--- loop:wrap(update_ip)
+--loop:wrap(update_ip)
 for e in loop:errors() do
 	if not RAME.running then break end
-	print(e)
+	RAME.log.error(e)
 end
 process.killall(9)
