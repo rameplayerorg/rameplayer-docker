@@ -30,11 +30,11 @@ RUN echo root:rpi | chpasswd
 
 # Create rame user for running backend, VLC does not
 # work when run by root
-RUN adduser -S rame
+#RUN adduser -S rame
 
 # Change rame user id and group id
-RUN sed -i -e "s/rame:x:101:65533:/rame:x:${uid}:${gid}:/g" /etc/passwd && \
-    echo "rame:x:${gid}:rame" >> /etc/group
+#RUN sed -i -e "s/rame:x:101:65533:/rame:x:${uid}:${gid}:/g" /etc/passwd && \
+#    echo "rame:x:${gid}:rame" >> /etc/group
 
 COPY sshd_config /etc/ssh/
 COPY supervisord.conf /etc/
