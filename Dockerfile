@@ -45,7 +45,7 @@ RUN ssh-keygen -A
 
 RUN mkdir -p ${RAME_DIR} && \
     cd ${RAME_DIR} && \
-    git clone https://github.com/fabled/lua-cqueues-pushy.git && \
+    git clone https://github.com/rameplayerorg/lua-cqueues-pushy.git && \
     git clone https://github.com/rameplayerorg/rameplayer-backend.git && \
     git clone https://github.com/rameplayerorg/rameplayer-webui.git && \
     cd rameplayer-backend && \
