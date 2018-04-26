@@ -1,4 +1,4 @@
-FROM alpine:3.4
+FROM alpine:3.7
 
 MAINTAINER Tuomas Jaakola <tuomas.jaakola@iki.fi>
 
@@ -9,12 +9,14 @@ ENV uid 1000
 ENV gid 1000
 
 RUN apk --update add \
+    bmd-tools \
     dbus \
     eudev \
     ffmpeg \
     git \
     lua5.3 \
     lua5.3-cjson \
+    lua5.3-curl \
     lua5.3-penlight \
     lua5.3-posix \
     lua5.3-cqueues \
